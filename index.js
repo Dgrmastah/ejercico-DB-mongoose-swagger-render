@@ -1,18 +1,18 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const connectDB = require('./config/config');
-const taskRoutes = require('./routes/tasks'); // Asegúrate de importar las rutas correctamente
+const taskRoutes = require('./routes/tasks'); 
 
 dotenv.config({ path: './config/.env' });
 
 const app = express();
 
-app.use(express.json()); // Necesario para parsear el cuerpo de la solicitud
+app.use(express.json()); 
 
 connectDB();
 
-// Usa las rutas de tareas con el prefijo adecuado
-app.use('/api/tareas', taskRoutes);  // Esto es importante
+
+app.use('/api/tareas', taskRoutes);  
 
 const PORT = process.env.PORT || 5000;
 
