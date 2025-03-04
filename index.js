@@ -1,13 +1,25 @@
 const express = require('express');
+const dotenv = require('dotenv');
+const connectDB = require('./config/config');
+const taskRoutes = require('./routes/tasks'); // Asegúrate de importar las rutas correctamente
+
+dotenv.config({ path: './config/.env' });
+
 const app = express();
-const PORT = 8080;
-const { dbConnection } = require('./config/config');
-const routes = require('./routes');
-app.use(express.json());
 
-app.use('/', routes);
+app.use(express.json()); // Necesario para parsear el cuerpo de la solicitud
 
+connectDB();
 
-dbConnection();
+// Usa las rutas de tareas con el prefijo adecuado
+app.use('/api/tareas', taskRoutes);  // Esto es importante
 
-app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+const PORT = process.env.PORT || 5000;
+
+app.get('/', (req, res) => {
+    res.send('Servidor corriendo y conectado a la base de datos');
+});
+
+app.listen(PORT, () => {
+    console.log(`Servidor corriendo en el puerto ${PORT}`);
+});
